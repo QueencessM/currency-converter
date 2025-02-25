@@ -1,18 +1,29 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
-export default {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
-    },
-  },
-  plugins: [],
-} satisfies Config;
+// https://nextjs.org/docs/app/building-your-application/optimizing/fonts#with-tailwind-css
+const config: Config = {
+	content: [
+		'./src/**/*.{js,ts,jsx,tsx,mdx}',
+	],
+	theme: {
+		extend: {
+			fontFamily: {
+				adlam: ['var(--font-adlam)'],
+				nunito: ['var(--font-nunito)'],
+			},
+			colors: {
+				background: 'var(--background)',
+				foreground: 'var(--foreground)',
+			},
+            width: {
+                screen: '100dvw',
+            },
+            height: {
+                screen: '100dvh',
+            },
+		},
+	},
+	plugins: [],
+};
+
+export default config;
