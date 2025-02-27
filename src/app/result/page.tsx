@@ -1,6 +1,9 @@
 import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
+import Error from '@/app/error';
+ 
 import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { formSchema } from '@/components/form/form-schema';
 
 interface ResultProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -9,8 +12,18 @@ interface ResultProps {
 export default async function Page({ searchParams }: ResultProps) {
     const { base = 'PHP', target = 'USD', amount = '0.000' } = await searchParams;
 
-    const response = await fetch(`https://v6.exchangerate-api.com/v6/${process.env.NEXT_PUBLIC_ACCESS_TOKEN}/pair/${base}/${target}`);
+    const validate = formSchema.safeParse({ amount, base, target });
+
+    if (!validate.success) {
+        return <Error />;
+    }
+
+    const response = await fetch(`https://v6.exchangerate-api.com/v6/${process.env.NEXT_PUBLIC_ACCESS_TOKEN}/pair/${base}/${target}`);    
     const data = await response.json();
+
+    if (data.result === 'error') {
+        return <Error />;
+    }
     
     const result = (Number(amount) * data.conversion_rate).toFixed(3);
 
