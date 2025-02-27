@@ -29,14 +29,17 @@ const RootLayout = ({ children }: RootLayoutProps) => {
     return (
         <html lang='en'>
             <head>
-                <meta name="darkreader-lock" />
+                <meta name='darkreader-lock' />
             </head>
 
             <body className={`${adlam.variable} ${nunito.variable}`}>
-                {children}
+                <main className='grid items-center justify-items-center w-full h-screen font-nunito'>
+                    {children}
+                    <div className='row-start-1 col-start-1 size-full bg-[url("/background.jpg")] bg-cover opacity-50 blur-sm -z-10' />
+                </main>
             </body>
         </html>
     );
 };
 
-export default RootLayout; // has to be default export
+export default RootLayout;
