@@ -25,9 +25,10 @@ export const CurrencyForm = ({ children }: CurrencyFormProps) => {
                 <label className={`flex flex-col gap-1`}>
                     Amount to be converted:
                     <Input
-                        type='number'
+                        type='text'
                         name='amount'
                         placeholder='0'
+                        defaultValue={formState.payload?.amount}
                         disabled={isPending}
                         required
                     />

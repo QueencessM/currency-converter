@@ -1,27 +1,31 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { formSchema, FormType } from './form-schema';
+import { formSchema } from './form-schema';
 
 export interface FormState {
     success: boolean;
+    payload?: {
+        amount?: string;
+        base?: string;
+        target?: string;
+    };
     errors?: string[];
 };
 
 export async function convertAction(state: FormState, formData: FormData): Promise<FormState> {
     const input = {
-        amount: formData.get('amount'),
-        base: formData.get('base'),
-        target: formData.get('target'),
+        amount: formData.get('amount') as string,
+        base: formData.get('base') as string,
+        target: formData.get('target') as string,
     };
-    console.log(input);
 
     const validate = formSchema.safeParse(input);
 
     if (!validate.success) {
-        console.log(validate.error.errors);
         return {
             success: false,
+            payload: input,
             errors: validate.error.issues.map((issue) => issue.message),
         };
     }
