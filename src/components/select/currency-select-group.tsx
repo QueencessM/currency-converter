@@ -16,6 +16,7 @@ const getCurrencies = async () => {
 
         return supportedCodes;
     } catch (error) {
+        console.error(error);
         return [];
     }
 };
