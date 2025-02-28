@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { formSchema } from '@/components/form/form-schema';
 
+export const runtime = 'edge';
+
 interface ResultProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
