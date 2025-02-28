@@ -10,7 +10,7 @@ interface ResultProps {
 };
 
 export default async function Page({ searchParams }: ResultProps) {
-    const { base = 'PHP', target = 'USD', amount = '0.000' } = await searchParams;
+    const { base, target, amount } = await searchParams;
 
     const validate = formSchema.safeParse({ amount, base, target });
 
