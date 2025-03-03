@@ -37,6 +37,16 @@ export const CurrencyForm = ({ children }: CurrencyFormProps) => {
                 <SubmitButton />
             </form>
 
+            {/* Results */}
+            {formState.success && (
+                <section className='flex flex-col items-center gap-1'>
+                    <h2 className='font-bold'>Results</h2>
+                    <p>
+                        {formState.payload?.base} {formState.payload?.amount} = {formState.payload?.target} {formState.payload?.result}
+                    </p>
+                </section>
+            )}
+
             {/* Errors */}
             {formState.errors && (
                 <ul className='flex flex-col gap-1'>
