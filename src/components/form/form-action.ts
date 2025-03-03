@@ -1,14 +1,14 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import { formSchema } from './form-schema';
 
 export interface FormState {
     success: boolean;
     payload?: {
-        amount?: string;
-        base?: string;
-        target?: string;
+        amount: string;
+        base: string;
+        target: string;
+        result?: string;
     };
     errors?: string[];
 };
@@ -32,5 +32,21 @@ export async function convertAction(state: FormState, formData: FormData): Promi
 
     const { amount, base, target } = validate.data;
 
-    redirect(`/result?base=${base}&target=${target}&amount=${amount}`);
+    const response = await fetch(`https://v6.exchangerate-api.com/v6/${process.env.NEXT_PUBLIC_ACCESS_TOKEN}/pair/${base}/${target}`);    
+    const data = await response.json();
+
+    if (data.result === 'error') {
+        return {
+            success: false,
+            payload: input,
+            errors: ['Invalid Currency Codes.'],
+        };
+    }
+    
+    const result = (Number(amount) * data.conversion_rate).toFixed(3);
+
+    return {
+        success: true,
+        payload: { amount: String(amount), base, target, result },
+    };
 }
